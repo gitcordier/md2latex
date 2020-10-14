@@ -1,7 +1,5 @@
-import json 
 import re
 import mistune
-#from varname import nameof
 
 __version__ = '0.0.2'
 __author__ = 'Kavin Yao <kavinyao@gmail.com>'
@@ -170,176 +168,38 @@ class LatexRenderer(mistune.Renderer):
         # return empty string as output
         return ''
 
-# The converter.
+
 class MarkdownToLatexConverter(LatexRenderer):
-    def __init__(self, path, preferences=None):
-        
-        '''
-            path: If path is PATH, then the .md file FILE must be at PATH/FILE.
-            preferences = the preferences, encoded as a json file, 
-                say PREFERENCES.json.
-                Such file must be at PATH/PREFERENCES.json
-        '''
-        
-        super().__init__()
-        self.path = path
-        if preferences is None:
-            pass
-        elif len(preferences) == 0: 
-            pass
-        elif preferences == 'default':
-            pass
-        else:
-            self.VALUES_FOR_TRUE = (True, "true", "True")
-            self.VALUES_FOR_FALSE = (None, '', False, 'false', "False")
-            
-            pref = json.load(open(preferences, 'r')).items()
-                
-            self.preferences = dict(
-                (k, v) for k, v in pref if v not in self.VALUES_FOR_FALSE
-            )
-            
-    def get_path_from_key(self, key):
-        return '/'.join((self.path, self.preferences[key]))
-            
-    
     meta_renderer = MetaRenderer()
-    
+
     def convert(self, doc):
         try:
             meta, body = doc.split('---', 1)
         except ValueError:
             raise ValueError('Your document seems missing the meta part.')
 
-# ----------------------------------------------------------------------------#
-        
         title = self.parse_meta(meta)
-        
-        # UGLY
-        displaytitle = '\def\displaytitle{%s}'%title[7: -1]
-        
-        def get_documentclass_option(key):
-            value = self.preferences['documentclass'][key]
-            
-            if value in self.VALUES_FOR_FALSE:
-                return ''
-            elif value in self.VALUES_FOR_TRUE:
-                return key
-            else:
-                return value
-            #
-        #        
-        documentclass =  '\\documentclass[%s]{%s}'%(','.join((
-                        get_documentclass_option('frame'), 
-                        get_documentclass_option('fonts_default_size'), 
-                        get_documentclass_option('titlepage'), 
-                        get_documentclass_option('openany') )), 
-                        get_documentclass_option('kind')
-        )
-        
-        # Import packages
-        with open(self.preferences['import_packages_from'], 'r') as f:
-            packages = f.read()
-        
-        # Fonts 
-        font_ = self.preferences['fonts']
-        
-        with open('fonts.txt', 'r') as f:
-            fonts = f.read()%(
-                font_['fixed_width'],
-                font_['main'], 
-                font_['LARGE'], 
-                font_['Large']
-            )
-        
-        # Colors
-        color_ = self.preferences['colors']
-        colors = '\n'.join('\definecolor{%s}{HTML}{%s}'%(k, v) 
-            for k, v in color_.items())
-        
-        language = '\setdefaultlanguage[]{%s}'%self.preferences['language']
-        
-        # @optional
-        # Fancy package 
-        if 'fancy' in self.preferences.keys():
-            fancy = open(self.get_path_from_key('fancy'), 'r').read()
-        else: 
-            fancy = ''
-        
-        # Title page
-        if self.preferences['documentclass']['titlepage'] is True:
-            if self.preferences['titlepage'] in {None, False, ''}:
-                maketitle = '\\maketitle'
-            else:
-                with open(self.preferences['titlepage'],'r') as f:
-                    maketitle = f.read()
-        else:
-            maketitle = ''
-        
-        # custom chapter, section, 
-        custom_ = self.preferences['custom']
-        
-        _ = []
-        for level in custom_:
-            dct = custom_[level]
-            
-            if 'color' in dct:
-                _.append('\\%sfont{\\color{%s}}'%(
-                    level, 
-                    dct['color']
-                )
-            )
-            
-            if 'renewcommand' in dct:
-                _.append('\\renewcommand{\\the%s}{%s}'%(
-                    level, 
-                    dct['renewcommand']
-                )
-            )
-        
-        custom = '\n'.join(_)
-        
-        # Introduction
-        with open(self.preferences['foreword'], 'r') as f:
-            foreword = f.read() + '\\newpage'
-        
-        # Table of contents
-        toc_ = self.preferences['table_of_contents']
-        _ = []
-        if 'renewcommand' in toc_:
-            _.append('\\renewcommand%s'%toc_['renewcommand'])
-        
-        _.append('\\tableofcontents\\newpage')
-        
-        toc = '\n'.join(_)
-        
-        # @optional
-        # Annex
-        if 'annex' in self.preferences.keys():
-            annex = '\input{%s}'%(self.preferences['annex']).split('/')[-1]
-        else:
-            annex = ''
-        
-        return '\n\n'.join((
-            documentclass,
-            packages, 
-            fonts, 
-            colors,
-            language,
-            displaytitle,
-            custom,
-            fancy,
-            self.resolve_commands(),
-            title,
-            '\setlength\parindent{0pt}\n\\begin{document}',
-            maketitle,
-            foreword,
-            toc,
-            self.parse_body(body),
-            annex,
-            '\\end{document}'
-        ))
-# ----------------------------------------------------------------------------#
+        body = self.parse_body(body)
+
+        template = '''\\documentclass{article}
+
+%s
+
+%s
+\\begin{document}
+
+%s
+
+\\maketitle
+%s
+
+\\end{document}'''
+
+        return template % (self.resolve_packages(),
+                           self.resolve_commands(),
+                           title,
+                           body)
+
     def parse_meta(self, meta):
         md = mistune.Markdown(renderer=self.meta_renderer)
         return md.render(meta)
@@ -364,10 +224,20 @@ class MarkdownToLatexConverter(LatexRenderer):
         return ''.join(new_parts)
 
     def resolve_packages(self):
-        pass
+        packages = ['\\usepackage[bottom=1in,top=1in]{geometry}', '\\usepackage{parskip}']
+
+        if self.use_enumerate:
+            packages.append('\\usepackage{enumerate}')
+
+        if self.use_hyperref:
+            packages.append('\\usepackage[pdftex,colorlinks,urlcolor=blue]{hyperref}')
+
+        packages.append('\n\\geometry{letterpaper}')
+
+        return '\n'.join(packages)
 
     def resolve_commands(self):
-        if True: #self.use_block_quote:
+        if self.use_block_quote:
             return r"""
 \newenvironment{blockquote}{%
   \par%
@@ -378,4 +248,3 @@ class MarkdownToLatexConverter(LatexRenderer):
 """
         else:
             return ''
-
