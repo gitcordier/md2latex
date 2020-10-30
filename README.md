@@ -42,6 +42,7 @@ Acknowledgement
 ---------------
 
 Thanks to @kavinyao for the great job.
+
 Thanks @lepture for the super awersome mistune_ markdown parser.
 
 .. _mistune: [https://github.com/lepture/mistune](https://github.com/lepture/mistune "Mistune")
