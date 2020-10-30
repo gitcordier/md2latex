@@ -181,7 +181,12 @@ class LatexRenderer(mistune.Renderer):
         # return empty string as output
         return ''
 
-# The converter
+###############################################################################
+# The converter                                                               #
+# FORK: BEGINNING ------------------------------------------------------------#
+# Up to now this is where the fork is justified.                              #
+# You may want to override this part                                          #
+###############################################################################
 class MarkdownToLatexConverter(LatexRenderer):
     
     def __init__(self, path, preferences):
@@ -744,6 +749,9 @@ class MarkdownToLatexConverter(LatexRenderer):
     # ------------------------------------------------------------------------#
     # ------------------------------------------------------------------------#
 # ----------------------------------------------------------------------------#
+###############################################################################
+# FORK: END ------------------------------------------------------------------#
+###############################################################################
     def parse_meta(self, meta):
         md = mistune.Markdown(renderer=self.meta_renderer)
         return md.render(meta)
