@@ -11,7 +11,7 @@ You can also get this original parser with a ``pip install md2latex`` (use ``sud
 Test
 -------
 
-See ``test.md`` for an example and run ``md2latex test.md test.tex`` to taste a flavor of it.
+In doc/: See``src/md2latex_doc.md.md`` for an example and run ``bash *run*`` to taste a flavor of it.
 
 Features
 --------
