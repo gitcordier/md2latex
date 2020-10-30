@@ -1,0 +1,65 @@
+{
+  "documentclass": {
+    "class": "article", 
+    "options": {
+      "paper size": "a4paper",
+      "font size": "11pt",
+      "draft mode": "",
+      "multiple columns": "",
+      "formula-specific options": "",
+      "side": "",
+      "titlepage": "titlepage",
+      "chapter opening": "openany"
+    }
+  },
+  "titlepage path": "",
+  "import packages from": "md2latex_doc.packages.tex", 
+  "fonts": {
+    "main": "Arial",
+    "fixed_width": "CMU Typewriter Text Light",
+    "LARGE": 36,
+    "Large": 24
+  },
+   "colors":{
+     "corporate_blue": "66ACC9",
+     "corporate_grey": "f5f5f5"
+   },
+  "language": {
+    "main": "english",
+    "date": " \\today",
+    "page numbering": " of ",
+    "table of contents": "Contents"
+  },
+  "fancy": {
+    "Y/N": "Yes", 
+    "path": "md2latex_doc.fancy.tex"
+  },
+  "custom": {
+    "section": {
+      "color": "corporate_blue",
+      "renewcommand": "\\arabic{section}"
+    },
+    "subsection": {
+      "renewcommand": "\\thesection.\\alph{subsection}"
+    }
+  },
+  "foreword": {
+    "Y/N": "yes",
+    "path": "md2latex_doc.foreword.tex"
+  },
+  "table of contents": {
+    "Y/N": "Yes", 
+    "renewcommand": "\\contentsname{\\color{corporate_blue}{Contents}}"
+  },
+  "annex": {
+    "Y/N": "No", 
+    "section": {
+      "renewcommand": "AnnexEE"
+    },
+    "path": "md2latex_doc.annex.tex"
+  }, 
+  "sources": {
+    "root": "./   ",
+    "images": "img"
+  }
+}
