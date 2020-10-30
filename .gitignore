@@ -9,3 +9,9 @@ test.*
 
 MANIFEST
 dist/
+
+venv/
+doc/
+
+*.tbz
+*.zip
