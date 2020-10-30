@@ -11,8 +11,7 @@ MANIFEST
 dist/
 
 venv/
-doc/dst
-doc/src
+doc/src0
 
 *.tbz
 *.zip

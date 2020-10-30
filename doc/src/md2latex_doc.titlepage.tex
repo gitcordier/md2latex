@@ -1,0 +1,35 @@
+% TITLE PAGE: BEGINNING 
+\def\coverimg{\PATHIMAGES unicorn.jpg}
+\usetikzlibrary{calc}
+%\renewcommand{\headrulewidth}{0pt}
+\def\cover{
+  \begin{tikzpicture}[remember picture,overlay]
+    \draw  let \p1=($(current page.north)-(current page header area.south)$),
+    \n1={veclen(\x1,\y1)} in
+      node [inner sep=128,outer sep=0, inner ysep=120, below right] 
+      at (current page.north west){
+        \includegraphics[width=0.5\paperwidth]{\coverimg}
+      };
+  \end{tikzpicture}
+}
+
+\begin{titlepage}
+	
+	%\includegraphics[width=\paperwidth]{\coverimg}\par\vspace{1cm}
+  \begin{minipage}[c]{\paperwidth}
+    \cover
+    \vspace{16cm}
+  \end{minipage}
+  \begin{minipage}[r]{\textwidth}
+    \begin{flushright}
+    {\scshape\mainfontLARGE \color{corporate_blue}{\currenttitle}\par}
+    \vspace{1 cm}
+    {\scshape\mainfontLarge \color{corporate_blue}{Documentation}\par}
+    \vspace{2 cm}
+    {\scshape\mainfontLarge \color{gray}{ The Unicorn Company} \par}
+    {\scshape\mainfontLarge \color{gray}{ \currentdate } \par}
+    \end{flushright}
+    
+  \end{minipage}
+\end{titlepage}
+% TITLE PAGE: END 

@@ -1,0 +1,234 @@
+\documentclass[a4paper, 11pt, titlepage, openany]{article}
+
+
+%: Import packages from src/md2latex_doc.packages.tex. 
+% Packages: BEGINNING 
+
+
+\usepackage[xetex]{xcolor}   %May be necessary if you want to color links
+\usepackage{hyperref}
+\hypersetup{
+    pdfborder = {0 0 0},
+    colorlinks=true, %set true if you want colored links
+    linktoc=all,     %set to all if you want both sections and subsections linked
+    linkcolor=corporate_blue,  %choose some color if you want links to stand out
+}
+
+% FOR XELATEX. SKIP IF ERROR MESSAGE
+\usepackage{xltxtra,xunicode}
+% for HEVEA- Uncomment before using XeTeX
+%\usepackage[utf8]{inputenc}
+
+\usepackage{lastpage}
+\usepackage{tocloft}
+
+%\usepackage{array}
+%\usepackage{xltabular,colortbl}
+\usepackage{framed}
+\usepackage[bottom=3cm,top=2cm]{geometry}
+%\usepackage[left=4cm,top=10cm,right=3cm,bottom=3cm]{geometry}
+\usepackage{graphicx}
+\usepackage{fancyhdr, tikz, tikzpagenodes}
+%\usepackage{amsmath,amssymb,mathrsfs,amsthm, mathspec}
+\usepackage{polyglossia}
+
+%\usepackage{xcolor}
+\usepackage{sectsty}
+%\usepackage{colortbl}
+%\usepackage{hyperref}
+
+\usepackage{cite}
+\usepackage{listings}
+
+\usepackage[labelsep=quad]{caption}
+\usepackage{float}
+\floatstyle{boxed} 
+\restylefloat{figure}
+
+% Packages: END
+
+
+%: Fonts.
+\defaultfontfeatures{Mapping=tex-text}
+\newfontfamily{\fw}{CMU Typewriter Text Light}
+\def\mainfont{Arial}
+\setmainfont{\mainfont}
+\newfontfamily\mainfontLARGE[SizeFeatures={Size=36}]{\mainfont}
+\newfontfamily\mainfontLarge[SizeFeatures={Size=24}]{\mainfont}
+
+%: Define colors.
+\definecolor{corporate_blue}{HTML}{66ACC9}
+\definecolor{corporate_grey}{HTML}{f5f5f5}
+
+
+
+%: Default language and dependent settings.
+\setdefaultlanguage[]{english}
+\newcommand{\currentdate}{ \today}
+\def\pagenumbering{ of }
+\def\nametableofcontents{Contents}
+
+%: Setting PATH.
+% PATHROOT
+\def\PATHROOT{../src/}
+% PATHIMAGES
+\def\PATHIMAGES{../src/img/}
+
+%: Custom (color, font,…) for section, subsection,….
+\sectionfont{\color{corporate_blue}}
+\renewcommand{\thesection}{\arabic{section}}
+\renewcommand{\thesubsection}{\thesection.\alph{subsection}}
+
+%: Pimp my page: package fancy.
+% FANCY: BEGINNING 
+\pagestyle{fancy}
+\def\footimg{\PATHROOT img/unicorn.jpg}
+\fancyhf{}
+\fancyfoot[LE,LO]{
+\vspace{0.1cm}
+  \includegraphics[scale=0.1]{\footimg}
+}
+\fancyfoot[RE,RO]{
+  \thepage \pagenumbering \color{black}{\pageref{LastPage}}
+}
+
+\renewcommand{\headrulewidth}{0pt}
+\fancyhead[LO,LE]{\color{gray}{\currenttitle}}
+\fancyhead[RO,RE]{\color{gray}{\today}}
+%
+\renewcommand{\caption}[1]{\center{
+    \textbf{Table }\addtocounter{table}{1}\thetable. #1
+  }
+}
+% FANCY: END
+
+
+\newenvironment{blockquote}{%
+  \par%
+  \medskip
+  \leftskip=4em\rightskip=2em%
+  \noindent\ignorespaces}{%
+  \par\medskip}
+\def\currenttitle{Markdown to {{\color{corporate_blue}{\LaTeX{} or \XeLaTeX{}}}} Test Document}\title{\currenttitle}
+
+\author{Git Cordier \\\texttt{admin@gcordier.eu}}\setlength\parindent{0pt}
+
+\begin{document}
+
+\input{../src/md2latex_doc.titlepage.tex}
+
+
+%: Foreword.
+% FOREWORD: BEGINNING
+\section*{Forewords}
+This is the corporate version of the md2\LaTeX full manual.
+It is intended to show that you can end up with all kinds of graphic design, 
+as you are writing, only, a .md file. 
+Your manager will keep sure that you are goot at MSWord.
+
+
+\vspace{7cm}
+{\color{corporate_blue}{THE UNICORN COMPANY}}\\
+\href{https://github.com/gitcordier}{\underline{http://theunicorncompany.somedomain}}\\
+\href{mailto:admin@gcordier.eu}{\color{gray}{\underline{admin@gcordier.eu}}}\\
+\\
+{\fw Copyright (c) <2020> <gitcordier>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.}
+%FOREWORD: END
+\newpage
+
+
+%: Table of comments (aka "toc").
+\tableofcontents\newpage
+
+
+
+%  Some LaTeX commands . TODO: md2latex.py 
+% \newcommand{\words}[1]{#1$^\ast$} 
+
+%  Content: BEGINNING 
+
+\newcommand{\var}[1]{\${#1}}
+
+\section{Introduction: Why I do this, by Kavin Yao}
+
+I love \LaTeX{} for its pretty typesetting, but not like its verbose syntax very much. 95\% of the time, I only use a very small subset of \LaTeX{} and really miss the simplicity of markdown every time I have to type in plain \LaTeX{}.
+
+I also use \href{http://www.texmacs.org/tmweb/home/welcome.en.html}{TeX{}macs}. Its a great tool and I love it. However, the source code of TeX{}macs documents, with an XML-like structure, is not human-readable. It's not good for source control, either.
+
+So, my conclusion is that, since what I mostly use in \LaTeX{} can be mapped to markdown, why not write document in markdown and convert it to \LaTeX{}? I find \href{http://johnmacfarlane.net/pandoc/}{Pandoc} but it's too cryptic to use[note1].
+
+And an idea bubbles up in my head: why not write my own converter from markdown to \LaTeX{}?
+
+I have a great start point: \href{https://github.com/lepture/mistune}{mistune}. It's a fast, clean implementation of markdown with a killer feature - footnote. I tend to use footnote much in \LaTeX{}.
+
+\subsection{Plan}
+
+My current plan of the converter includes:
+
+\begin{itemize}
+    \item[-] 
+
+title and author (with meta header)
+    \item[-] 
+
+sections (headers in markdown)
+    \item[-] 
+
+lists (ordered with \texttt{enumerate} and unordered with \texttt{itemize} package)
+    \item[-] 
+
+emphasize, strong and monospace styles
+    \item[-] 
+
+hyperlink
+    \item[-] 
+
+footnote
+    \item[-] 
+
+math\footnote{since there's no inline math in markdown, it is translated as is.}
+\end{itemize}
+
+Now let's see how much we can do...
+
+Test quote:
+
+\begin{blockquote}
+
+Steve Jobs: stay foolish, stay hungry.
+\end{blockquote}
+
+Test \texttt{code}:
+
+\begin{verbatim}
+
+int main()
+
+{
+
+    printf("Hello world!");
+
+}
+\end{verbatim}
+
+%  Content: END 
+
+\noindent\rule{\textwidth}{0.4pt}\end{document}

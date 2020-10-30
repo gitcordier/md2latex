@@ -12,7 +12,7 @@
       "chapter opening": "openany"
     }
   },
-  "titlepage path": "",
+  "titlepage path": "md2latex_doc.titlepage.tex",
   "import packages from": "md2latex_doc.packages.tex", 
   "fonts": {
     "main": "Arial",
@@ -54,7 +54,7 @@
   "annex": {
     "Y/N": "No", 
     "section": {
-      "renewcommand": "AnnexEE"
+      "renewcommand": "Annex"
     },
     "path": "md2latex_doc.annex.tex"
   }, 

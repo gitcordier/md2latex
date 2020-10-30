@@ -1,0 +1,11 @@
+{
+  "class": ["article", "report", "book"], 
+  "paper size": ["a4paper", "letterpaper", "a5paper", "b5paper", "executivepaper", "legalpaper"],
+  "font size": ["10pt", "11pt", "12pt"],
+  "draft mode": ["draft"],
+  "multiple columns": ["onecolumn", "twocolumns"],
+  "formula-specific options": ["fleqn", "leqno"],
+  "side": ["oneside", "twoside"],
+  "titlepage": ["titlepage", "notitlepage"],
+  "chapter opening": ["openany", "openright"]
+}
