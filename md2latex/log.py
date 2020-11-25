@@ -33,7 +33,7 @@ class LOG(Enum):
     
     # documentclass warnings.
     NO_DOCUMENTCLASS    = 'WARNING: documentclass: Nothing about documentclass in the preferences file: You should harcode your \documentclass markup.'
-    OPTION              = 'WARNING: documentclass: The value %s of %s in nonstandard. If you deal with the standard package, then it is a mistyping.'
+    OPTION              = 'WARNING: documentclass: The value %s of %s is nonstandard. If you deal with the standard package, then it is a mistyping.'
     NO_OPTION           = 'WARNING: documentclass: %s is not a standard option. If you deal with the standard package, then it is a mistyping.'
     NO_OPTION_          = 'WARNING: documentclass: No [option] for class %s.'
     NO_STANDARD_CLASS   = 'WARNING: documentclass: %s is not a standard class. If you deal with the standard package, then it is a mistyping.'

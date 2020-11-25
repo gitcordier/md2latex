@@ -25,9 +25,11 @@ Features
 - emphasis, strong and monospace text style
 - hyperlink (using ``hyperref`` package)
 - footnote (in mistune syntax)
+- HTML colorts
 - HTML comments (converted to LaTeX comments, with the TeXShop convention "%:")
 - Input files markups (converted to LaTeX \input 's)
 - Language and graphic design settings (fonts, colors, section, …)
+- LaTeX code: Tables, mathematical formulas 
 - Foreword
 - Annex
 - Table of contents
@@ -35,8 +37,22 @@ Features
 
 Caveats
 -------
-
 You can inline LaTeX commands because that are not markdown-parsable. However, md2latex does not do auto-escaping for you so if you have underscore LaTeX meta chracters such as _ or % in your document, be cautious!
+If your mathematical command are a sophisticated, e.g. \begin{align} …, then the latex compilation should break, for empty-line-inserted reason. 
+For now, workarounds are:
+
+- Clean up the LateX output;
+- Go back to LaTeX  source codes…  
+  It's all about trade offs… If you want to type pure AMSTeX, then a *TeX could be the best option.
+- Import content from a .tex file, with the inputmd command.  
+  I used this a lot (inserting complex tables). It works very well.
+
+
+Documentation
+-------
+The full manual (see src/md2latex_doc.md.md``) is … being written. A fancy term for: there is currently no full manual.
+
+src/TLA encloses the (partial) specs of the parse.  Once again, it's ongoing…
 
 Acknowledgement
 ---------------

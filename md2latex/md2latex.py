@@ -69,11 +69,14 @@ class LatexRenderer(mistune.Renderer):
     def not_support(self, feature):
         raise NotImplemented('%s is not supported yet.' % feature)
 
+    # Fornow, you can't quote LaTeX code. LaTeX code will be compiled.
+    # TODO: Find some workaround.
     @newline
     def block_code(self, code, lang=None):
         '''Ref: http://scott.sherrillmix.com/blog/programmer/displaying-code-in-latex/'''
         code = code.rstrip()
-        return '\\begin{verbatim}\n%s\n\\end{verbatim}' % code
+        return code
+        #return '\\begin{verbatim}\n%s\n\\end{verbatim}' % code
 
     @newline
     def block_quote(self, text):
@@ -310,7 +313,8 @@ class MarkdownToLatexConverter(LatexRenderer):
                 # We will copy the options in the .tex file, as a single string
                 # Before we do so, we include ', ' where necesssary.
                 options_to_latex_file = [
-                    option_[key] + ', '*(key !='class' and option_[key] != '') 
+                    '' if key =='class' or option_[key] in FALSE 
+                    else str(option_[key]) + ', ' 
                     for key in option_
                 ]
                 
@@ -356,11 +360,17 @@ class MarkdownToLatexConverter(LatexRenderer):
         fonts_latex_markups = cat('\n', 
             '\defaultfontfeatures{Mapping=tex-text}',
             '\\newfontfamily{\\fw}{%s}',
+            '\def\\fwfont{%s}', 
             '\def\mainfont{%s}',
             '\setmainfont{\mainfont}',
             '\\newfontfamily\mainfontLARGE[SizeFeatures={Size=%d}]{\mainfont}',
-            '\\newfontfamily\mainfontLarge[SizeFeatures={Size=%d}]{\mainfont}', 
+            '\\newfontfamily\mainfontLarge[SizeFeatures={Size=%d}]{\mainfont}',
+            '\setmathfont(Latin)[Uppercase=Regular,Lowercase=Regular]{\mainfont}',
+            '\setmathfont(Greek)[Uppercase=Regular,Lowercase=Regular]{\mainfont}',
+            '\setmathrm{\mainfont}',
+            '\setmathbb{\mainfont}'
         )%(
+            self.preferences['fonts']['fixed_width'],
             self.preferences['fonts']['fixed_width'],
             self.preferences['fonts']['main'], 
             self.preferences['fonts']['LARGE'], 
@@ -725,8 +735,29 @@ class MarkdownToLatexConverter(LatexRenderer):
             annex = ''
         #
         # Annex: END ---------------------------------------------------------#
-        
         # Put everything together.
+        body = self.parse_body(clean_up(copy_all_inputmd(body)))
+         # UGLY but it works…
+        body = body.replace('1729ampersand', '&')
+        body = body.replace('√', '\\')
+        #
+        body = body.replace('\¢--', COMMENTCODESTARTS)
+        body = body.replace('\--¢', COMMENTCODEENDS)
+        #body = body.replace('XeLaTeX', '\XeLaTeX{}') # TODO: regex
+        #body = body.replace('LaTeX', '\LaTeX{}')
+        
+        # Remove some slang. TODO: As parameters, in the JSON prefs. file ? 
+        body = body.replace('iff', 'if and only if')
+        body = body.replace('iif', 'if and only if')
+        body = body.replace('\if and only if', '\iff')
+        # So that complex LaTex stuffs like \begin{align}… work. 
+        # This is lame patching. It does not provide any garantee that 
+        # LaTeX code is well-formed.
+        body = body.replace('%\n\n', '%\n')
+        body = body.replace('\\\n\n', '\\\n')
+        body = body.replace('\n\end', '\end')
+        body = body.replace('%\n\n', '%\n%')
+        
         return dict(tex=dict([
                 ('documentclass', documentclass), 
                 ('packages', packages), 
@@ -742,8 +773,8 @@ class MarkdownToLatexConverter(LatexRenderer):
                 ('maketitle', maketitle),
                 ('foreword', foreword),
                 ('toc', toc),
-                ('body', self.parse_body(clean_up(copy_all_inputmd(body)))),
-                ('annex', annex), 
+                ('body', body),
+                ('annex', annex),
                 ('end document', END_DOCUMENT)
         ]),log=log)
     # ------------------------------------------------------------------------#

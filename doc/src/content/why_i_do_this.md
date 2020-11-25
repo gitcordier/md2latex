@@ -2,7 +2,7 @@ I love \LaTeX{} for its pretty typesetting, but not like its verbose syntax very
 
 I also use [TeX{}macs](http://www.texmacs.org/tmweb/home/welcome.en.html). Its a great tool and I love it. However, the source code of TeX{}macs documents, with an XML-like structure, is not human-readable. It's not good for source control, either.
 
-So, my conclusion is that, since what I mostly use in \LaTeX{} can be mapped to markdown, why not write document in markdown and convert it to \LaTeX{}? I find [Pandoc][pandoc] but it's too cryptic to use[note1].
+So, my conclusion is that, since what I mostly use in \LaTeX{} can be mapped to markdown, why not write document in markdown and convert it to \LaTeX{}? I find [Pandoc][pandoc] but it's too cryptic to use[^note1].
 
 [pandoc]: http://johnmacfarlane.net/pandoc/
 [^note1]: Pandoc is too omnipotent and lack the simplicity I prefer.

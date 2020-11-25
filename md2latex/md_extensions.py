@@ -69,7 +69,7 @@ def copy_all_inputmd(text):
         text_last  = text[closing_last:]
         blocks.append(text_last)
     
-        return to_string(blocks)
+        return to_string(blocks).replace('\\', '√').replace('&', '1729ampersand')
     #
     else:
         return text

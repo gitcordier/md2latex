@@ -1,0 +1,41 @@
+%\setcounter{section}{0}
+\newcommand{\words}[1]{{#1}$^\ast$}
+\begin{table}[htp]
+  \begin{center}
+    \begin{tabular}{|l|l|l|l|}\hline\rowcolor{white}
+      %
+      \begin{tabular}{l}
+        \color{blue}{key}
+      \end{tabular} 
+       &
+      \begin{tabular}{l}
+        \color{blue}{syntax ($\small{\in}$)}
+      \end{tabular} 
+       & 
+      \begin{tabular}{l}
+        \color{blue}{meaning}
+      \end{tabular} 
+      &
+      \begin{tabular}{l}
+        \color{blue}{optional}
+      \end{tabular}
+      \\\hline
+      %
+       {\fw documentclass} & Dict     & document class       & yes \\
+       {\fw titlepafe} & $False \cup Path$& document class       & yes \\
+       {\fw packages} & \words{ASCII} & path of packages     & {\bf no} \\
+       {\fw fonts}    &  Dict         & set the fonts        & yes \\
+       {\fw colors}   &  Dict         & set extra colors     & yes \\
+       {\fw language} &  Dict    & default language & {\bf no} \\
+                      &               & dependent settings.  &     \\
+       {\fw fancy}    & \words{ASCII} & page foot seetings.  & yes \\
+       {\fw custom}.  & \words{ASCII} & section, subsection  & yes \\
+       {\fw foreword} & $Bool^{\{ \text{\fw Y/N} \}} \times Path^{\{ \text{\fw path} \}}$ &&\\
+       {\fw toc}      & \words{ASCII} & toc                  & yes \\
+       {\fw annex}    & \words{ASCII} & including annex      & yes 
+       % END
+      \\\hline
+    \end{tabular}
+\end{center}
+\end{table}
+
