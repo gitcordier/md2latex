@@ -16,4 +16,9 @@ doc/src0
 *.tbz
 *.zip
 
+*aux*
+log
+*out
+*toc
+
 doc/dst/
