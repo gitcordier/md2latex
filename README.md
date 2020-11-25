@@ -50,9 +50,9 @@ For now, workarounds are:
 
 Documentation
 -------
-The full manual (see src/md2latex_doc.md.md``) is … being written. A fancy term for: there is currently no full manual.
+The full manual (see doc/src/md2latex_doc.md.md``) is … being written. A fancy term for: there is currently no full manual.
 
-src/TLA encloses the (partial) specs of the parse.  Once again, it's ongoing…
+doc/TLA encloses the (partial) specs of the parse.  Once again, it's ongoing…
 
 Acknowledgement
 ---------------
