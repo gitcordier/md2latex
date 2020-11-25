@@ -36,6 +36,3 @@ isDone == /\ entityState.user = "done"
         /\ entityState.checker = "done"
     
 =============================================================================
-\* Modification History
-\* Last modified Wed Nov 25 15:41:10 CET 2020 by gcordier
-\* Created Sun Nov 22 02:11:18 CET 2020 by gcordier

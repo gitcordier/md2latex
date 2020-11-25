@@ -1,13 +1,14 @@
 ------------------------ MODULE Md2LaTeXSystemDesign --------------------------
-EXTENDS Md2LaTeXCorrectness, Md2LaTeXSystemDesignPreferencesFile
+EXTENDS Md2LaTeXCorrectness, FiniteSets
 
 CONSTANTS ANY, PATH \* Any object, any path
 CONSTANTS 
-    STRING_ALPH, 
-    STRING_ALPH_NONEMPTY,
-    STRING_LATEX \* Including the empty string
+    STRING_ALPH, \* The words of the latin alphabet
+    STRING_ALPH_NONEMPTY, \* == STRING_ALPH \{""}
+    STRING_LATEX \* All LaTeX Markups/commands, including "".
 CONSTANT RECORD  \* Any record
 CONSTANT NAT     \* Any integer 0, 1, 2, …
+\* The preferences define a unique record
 CONSTANTS DOMAIN_OF_PREFERENCES, SET_OF_PREFERENCES
 
 (* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *)
@@ -20,32 +21,25 @@ CONSTANTS Y_N, JSON_YES, JSON_NO, EXCLUDED_BY_YES_OR_NO_POLICY
 (* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *)
 (* The preferences are identified with a file 'preferences'.           *)
 (* In practice, this is a JSON file ${}.preferences.json               *)
-(*     (see operator SetOfPreferences),                                *)
+(*     (see CONSTANT SET_OF_PREFERENCES),                              *)
 (* even if no semantics push on that.                                  *)
 (*                                                                     *)
 (* isPreferencesFileCompliant${} keep track of preferences compliance. *)
 (* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *)
-VARIABLES preferences,
-    isPreferencesFileCompliantConjectured, 
-    isPreferencesFileCompliantProved, 
-    (* Moreover, 'importanceOfKey_' keeps track of *)
-    (* optional and mandatory fields.              *)
-    importanceOfKey_ 
+VARIABLES preferences, isPreferencesFileCompliant
 
 (* Convenient operator.                       *)
 (* Recall that Yes = True and that No = False *)
 JSON_BOOL == JSON_YES \cup JSON_NO
 
-
-(* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *)
-(* So, here is the specification of a file ${}.preferences.json .      *)
-(* Such a file must implement, or at least "follow", a specific policy,*)
-(* that I named "YesOrNo".                                             *)
-(* Further explanations in Md2LaTeXSystemDesignPreferences.tla         *)
-(* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *)
-
 (* YesOrNo policy: BEGINNING ------------------------------------------------*)
 (* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *)
+(* So, here is the specification of a file ${}.preferences.json .      *)
+(* See CONSTANTS DOMAIN_OF_PREFERENCES, SET_OF_PREFERENCES;            *)
+(*     or Md2LaTeXSystemDesignPreferencesFile                          *)
+(* Such a file must implement, or at least "follow", a specific policy,*)
+(* that I named "YesOrNo".                                             *)
+(*                                                                     *)
 (* The YesOrNo policy:                                                 *)
 (* Goal: The very purpose of all that verbose is about implementing a  *)
 (* key -namely, Y_N - you can see as a switch on/off button.           *)
@@ -116,9 +110,8 @@ isCompatibleWithYesOrNoPolicy(f) == XOR(
 isPreferencesFollowingSpec ==
        \*
        \* First, only a specific range for the keys: 
-    /\ DOMAIN preferences \subseteq DOMAIN (
-           CHOOSE p \in SetOfPreferences: TRUE)
-       \* Next, every "subrecords" must be compatible with YesOrNo.
+    /\ DOMAIN preferences \subseteq DOMAIN_OF_PREFERENCES
+       \* Next, every "subrecord" must be compatible with YesOrNo.
     /\ \A key \in DOMAIN preferences: 
           isCompatibleWithYesOrNoPolicy(preferences[key])
 
@@ -132,41 +125,45 @@ isOptional(record) ==
     isFollowingYesOrNoPolicy(record)
     \* THEN TRUE ELSE FALSE
 
-
-(* Initial state *)
+(* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *)
+(* Initial state                                                       *) 
+(* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *)
 InitPreferences == 
-    /\ preferences \in SetOfPreferences
+    /\ preferences \in SET_OF_PREFERENCES
 
 InitSystemDesign == 
     /\ InitCorrectness
     /\ InitPreferences
        \*
        \* IF we do not believe that our current preferences file is legal,
-       \* then, there is no process at all, we just keep working:
-    /\ isPreferencesFileCompliantConjectured = TRUE
-        \*
-        \* Of course, up to now, nothing has been proved:
-    /\ isPreferencesFileCompliantProved = FALSE
-        \*
-        \* "documentclass" is a mandatory field:
-    /\ importanceOfKey_ = [
-        optional |-> {}, 
-        mandatory|-> {"documentclass"}] 
+       \* then, there is no process at all, we just go nack to work:
+       \* Of course, up to now, nothing has been proved:
+    /\ isPreferencesFileCompliant = TRUE 
 
+(* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *)
+(* Next step                                                           *) 
+(* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *)
 NextSystemDesign == 
     /\ NextCorrectness
     /\ isPreferencesFollowingSpec
-    /\ isPreferencesFileCompliantProved' = isPreferencesFollowingSpec
-    /\ isPreferencesFileCompliantConjectured' = FALSE
-    /\ XOR(
-           isPreferencesFileCompliantConjectured',
-           isPreferencesFileCompliantProved')
-    /\ importanceOfKey_' = [ 
-           importanceOfKey_ EXCEPT !.optional = @ \cup 
-               {x \in DOMAIN preferences: isOptional([x |-> preferences[x]])}]
+    /\ isPreferencesFileCompliant' = isPreferencesFollowingSpec
     /\ UNCHANGED preferences
 
-     
+(* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *)
+(* Invariants                                                          *) 
+(* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *)
+
+(* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *)
+(* Properties                                                          *) 
+(* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *)
+\* We can assume that our preferences comply with all policies:
+\* Under the specs: 
+\* [][isPreferencesFileCompliant]_<<
+\*    isPreferencesFileCompliant
+\*>>
+\* Check with TLC must be OK. 
+\* I consider it as an invariant, even if it's not syntactically true, 
+\* since isPreferencesFileCompliant${} variables are primed.
 
 
 ===============================================================================
