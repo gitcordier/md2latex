@@ -23,5 +23,6 @@ doc/src0
 
 doc/dst/
 doc/TLA/md
+doc/TLA/tex
 doc/TLA/tex/*py
 doc/TLA/tex/*sh
