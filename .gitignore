@@ -21,7 +21,6 @@ doc/src0
 *out
 *toc
 
-doc/dst/
-doc/TLA/md/*
-doc/TLA/tex/*py
-doc/TLA/tex/*sh
+/doc/dst/
+/doc/TLA/md/
+/doc/TLA/tex/
