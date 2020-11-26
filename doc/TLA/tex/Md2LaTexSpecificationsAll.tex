@@ -1,0 +1,1156 @@
+\newpage
+%.  Md2LaTexCorrectness.tex: BEGINNING
+\tlatex
+\setboolean{shading}{true}
+ \@x{}\moduleLeftDash\@xx{ {\MODULE}
+ Md2LaTeXCorrectness}\moduleRightDash\@xx{}%
+\@x{ {\EXTENDS} FiniteSets}%
+\@pvspace{8.0pt}%
+\@x{ {\CONSTANTS} ANY ,\, PATH}%
+\@y{\@s{0}%
+ Any object, any path
+}%
+\@xx{}%
+\@x{ {\CONSTANTS}}%
+\@x{\@s{16.4} STRING\_ALPH ,\,}%
+\@y{\@s{0}%
+ The words of the latin alphabet
+}%
+\@xx{}%
+\@x{\@s{16.4} STRING\_ALPH\_NONEMPTY ,\,}%
+\@y{\@s{0}%
+ \ensuremath{\,{\defeq} STRING\_ALPH \,{\,\backslash\,}\{\@w{}\}
+}}%
+\@xx{}%
+\@x{\@s{16.4} STRING\_LATEX}%
+\@y{\@s{0}%
+ All \ensuremath{LaTeX} \ensuremath{Markups}/commands, including
+ \ensuremath{\@w{}}.
+}%
+\@xx{}%
+\@x{ {\CONSTANT} RECORD\@s{4.1}}%
+\@y{\@s{0}%
+ Any record
+}%
+\@xx{}%
+\@x{ {\CONSTANT} NAT\@s{23.99}}%
+\@y{\@s{0}%
+ Any integer 0, 1, 2, …
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ The preferences define a unique record
+}%
+\@xx{}%
+\@x{ {\CONSTANTS} DOMAIN\_OF\_PREFERENCES ,\, SET\_OF\_PREFERENCES}%
+\@pvspace{8.0pt}%
+\@x{}%
+\@y{\@s{0}%
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ ``yes'', ``on'', and ``true'' are synonyms;
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ ``no'', ``off'', and ``false'' are synomyms.
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ The way we express ``yes'', ``no'' in a \ensuremath{JSON} file.
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}%
+\@xx{}%
+ \@x{ {\CONSTANTS} Y\_N ,\, JSON\_YES ,\, JSON\_NO ,\,
+ EXCLUDED\_BY\_YES\_OR\_NO\_POLICY}%
+\@pvspace{8.0pt}%
+\@x{}%
+\@y{\@s{0}%
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ The preferences are identified with a file \mbox{'}preferences\mbox{'}.
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ In practice, this is a \ensuremath{JSON} file
+ \ensuremath{NAME.preferences.json
+}}%
+\@xx{}%
+\@x{}%
+\@y{\@s{10.0}%
+ (see \ensuremath{{\CONSTANT}} \ensuremath{SET\_OF\_PREFERENCES}),
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ even if no semantics push on that.
+}%
+\@xx{}%
+\@x{}%
+\@y{}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ \ensuremath{isPreferencesFileCompliant} keeps track of preferences
+ compliance.
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}%
+\@xx{}%
+\@x{ {\VARIABLES} preferences ,\, isPreferencesFileCompliant}%
+\@pvspace{8.0pt}%
+\@x{}%
+\@y{\@s{0}%
+ Convenient operators.
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ Recall that Yes \ensuremath{\,{=}} True and that No \ensuremath{\,{=}} False
+}%
+\@xx{}%
+\@x{ JSON\_BOOL \,{\defeq} JSON\_YES \,{\cup} JSON\_NO}%
+ \@x{ XOR ( a ,\, b )\@s{13.23} \,{\defeq} ( a \,{\lor} b ) \,{\land} (
+ {\lnot} b \,{\lor} {\lnot} a )}%
+\@pvspace{8.0pt}%
+\@x{}%
+\@y{\@s{0}%
+ \ensuremath{YesOrNo} policy: BEGINNING \cdash{48}
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ So, here is the specification of a file \ensuremath{NAME.preferences.json} .
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ See \ensuremath{{\CONSTANTS}} \ensuremath{DOMAIN\_OF\_PREFERENCES},
+ \ensuremath{SET\_OF\_PREFERENCES};
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{10.0}%
+ or \ensuremath{Md2LaTeXSystemDesignPreferencesFile
+}}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ Such a file must implement, or at least ``follow'', a specific policy,
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ that I named ``\ensuremath{YesOrNo}''.
+}%
+\@xx{}%
+\@x{}%
+\@y{}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ The \ensuremath{YesOrNo} policy:
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ Goal: The very purpose of all that verbose is about implementing a
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ key -namely, \ensuremath{Y\_N} - you can see as a switch on/off button.
+}%
+\@xx{}%
+\@x{}%
+\@y{}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ Definitions:
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ 1. No: Means ``no action''; which we define as follows:
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{17.5}%
+ i. If you do something, then it is discarded.
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{17.5}%
+ \ensuremath{ii.If} you announce something, then it is disregarded.
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ 2. Saying ``No'': The current key is mapped to some value in
+ \ensuremath{JSON\_NO}.
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ 3. Saying ``Yes'':The current key is mapped to some value in
+ \ensuremath{JSON\_YES}.
+}%
+\@xx{}%
+\@x{}%
+\@y{}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ Statement:
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ 1. It is Yes \ensuremath{XOR} No (see above definitions 2, 3).
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ 1.1.1. If you do not say anything, then it is No.
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ 1.1.2. If you say ``emptyset'' (None, NULL, \ensuremath{\@w{}}, …), then it
+ is No.
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ 1.1.3. If you say ``No'', then it is No.
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ 1.2. If you say ``Yes'', then you do value of key right now.
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ 4. You do not neither do nor say anything else.
+}%
+\@xx{}%
+\@x{}%
+\@y{}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ Implementation
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ The ``yes or no'' key \ensuremath{Y\_N
+}}%
+\@xx{}%
+\@x{}%
+\@y{\@s{7.5}%
+ (see Statement 1 for existence, Statement 4 for uniqueness)
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ is always the String ``Y/\ensuremath{N}''.
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ Moreover, we expect you actually do something relevant/nontrivial
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ This latter requirement cannot be implemented from a general case,
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ since:
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ (a) ``relevant'' and ``nontrivial'' are context-dependent.
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ (\ensuremath{b}) The context space is countable but infinite.
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ A complementary approach is about defining
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{10.0}%
+ \ensuremath{EXCLUDED\_BY\_YES\_OR\_NO\_POLICY
+}}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ as the minimal set of what is either trivial or irrelevant.
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ This set is not constructed ;) .
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{7.5}%
+ (In practice, \ensuremath{EXCLUDED\_BY\_YES\_OR\_NO\_POLICY} should contain,
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{10.0}%
+ at least, boolean and numerical value
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ Hence, we cannot guarantee that the \ensuremath{YesOrNo} policy is
+ implemented.
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ But we can check that the policy is ``followed'', in the sense that:
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ i. The policy is partially implemented and:
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ ii. If the provided content is actually relevant,
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{20.0}%
+ then the policy is (nonprovably) implemented.
+}%
+\@xx{}%
+\@x{}%
+\@y{}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ Test / action\mbox{'}\ensuremath{isFollowingYesOrNoPolicy(f)^{\prime}
+}}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ We expect the atom \ensuremath{f} to be a ``first-degree subrecord'' of
+ preferences
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{10.0}%
+ (\ensuremath{documentclass\,{\mapsto}} …,
+ \ensuremath{import\_packages\,{\mapsto}} …, and so on).
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ \ensuremath{isFollowingYesOrNoPolicy(f)} is \ensuremath{{\TRUE}}
+ \ensuremath{if.f} \ensuremath{f} follows \ensuremath{YesOrNo}.
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}%
+\@xx{}%
+\@x{ isFollowingYesOrNoPolicy ( f ) \,{\defeq}}%
+\@x{\@s{16.4} \,{\land} Y\_N \,{\in} {\DOMAIN} f\@s{71.68}}%
+\@y{\@s{0}%
+ the \ensuremath{YesOrNo} switch button
+}%
+\@xx{}%
+\@x{\@s{16.4} \,{\land} Cardinality ( {\DOMAIN} f ) \,{=} 2\@s{32.27}}%
+\@y{\@s{0}%
+ See Statement 4
+}%
+\@xx{}%
+ \@x{\@s{16.4} \,{\land}\@s{4.1} \,{\lor}\@s{16.4} f [ Y\_N ] \,{\in}
+ JSON\_NO\@s{25.49}}%
+\@y{\@s{0}%
+ It is No
+}%
+\@xx{}%
+ \@x{\@s{31.61} \,{\lor}\@s{4.1} \,{\land} f [ Y\_N ]\@s{1.18} \,{\in}
+ JSON\_YES\@s{20.5}}%
+\@y{\@s{0}%
+ It is Yes, and we ``do well'':
+}%
+\@xx{}%
+ \@x{\@s{46.82} \,{\land} \A\, key\@s{12.71} \,{\in} ( {\DOMAIN} f )
+ \,{\,\backslash\,} \{ Y\_N \} \,{:}}%
+\@x{\@s{62.03} \,{\land} f [ key ] \,{\in} EXCLUDED\_BY\_YES\_OR\_NO\_POLICY}%
+\@pvspace{8.0pt}%
+\@x{}%
+\@y{\@s{0}%
+ \ensuremath{YesOrNo} policy: END \cdash{54}
+}%
+\@xx{}%
+\@pvspace{8.0pt}%
+\@x{}%
+\@y{\@s{0}%
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ Either you want to implement \ensuremath{YesOrNo} (see above),
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ either you want to do something entirely different.
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}%
+\@xx{}%
+\@x{ isCompatibleWithYesOrNoPolicy ( f ) \,{\defeq} XOR (}%
+\@x{\@s{16.4} isFollowingYesOrNoPolicy ( f ) ,\,}%
+\@x{\@s{16.4} Y\_N \,{\notin} {\DOMAIN} f )}%
+\@pvspace{8.0pt}%
+\@x{}%
+\@y{\@s{0}%
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ \ensuremath{isPreferencesFollowingSpec \,{=} {\TRUE}} \ensuremath{if.f
+}}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ preferences follow the specs.
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}%
+\@xx{}%
+\@x{ isPreferencesFollowingSpec \,{\defeq}}%
+\@x{\@s{28.7}}%
+\@y{}%
+\@xx{}%
+\@x{\@s{28.7}}%
+\@y{\@s{0}%
+ First, only a specific range for the keys:
+}%
+\@xx{}%
+ \@x{\@s{16.4} \,{\land}\@s{1.18} {\DOMAIN} preferences \,{\subseteq}
+ DOMAIN\_OF\_PREFERENCES}%
+\@x{\@s{28.7}}%
+\@y{\@s{0}%
+ Next, every ``subrecord'' must be compatible with \ensuremath{YesOrNo}.
+}%
+\@xx{}%
+ \@x{\@s{16.4} \,{\land}\@s{1.18} \A\, key \,{\in} {\DOMAIN} preferences
+ \,{:}}%
+\@x{\@s{35.92} isCompatibleWithYesOrNoPolicy ( preferences [ key ] )}%
+\@pvspace{8.0pt}%
+\@x{}%
+\@y{\@s{0}%
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ Remark: If it is \ensuremath{YesOrNo}, then it is optional,
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ since you cannot turn off a mandatory feature.
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ In other words, we have the following criterion:
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}%
+\@xx{}%
+\@x{ isOptional ( record ) \,{\defeq}}%
+\@x{\@s{16.4}}%
+\@y{\@s{0}%
+ \ensuremath{{\IF}
+}}%
+\@xx{}%
+\@x{\@s{16.4} isFollowingYesOrNoPolicy ( record )}%
+\@x{\@s{16.4}}%
+\@y{\@s{0}%
+ \ensuremath{\,{\THEN} {\TRUE}} \ensuremath{\,{\ELSE} {\FALSE}
+}}%
+\@xx{}%
+\@pvspace{8.0pt}%
+\@x{}%
+\@y{\@s{0}%
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ Initial state
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}%
+\@xx{}%
+\@x{ InitPreferences \,{\defeq}}%
+\@x{\@s{16.4} \,{\land} preferences \,{\in} SET\_OF\_PREFERENCES}%
+\@pvspace{8.0pt}%
+\@x{ InitCorrectness \,{\defeq}}%
+\@x{\@s{16.4} \,{\land} InitPreferences}%
+\@x{\@s{27.51}}%
+\@y{}%
+\@xx{}%
+\@x{\@s{27.51}}%
+\@y{\@s{0}%
+ \ensuremath{{\IF}} we do not believe that our current preferences file is
+ legal,
+}%
+\@xx{}%
+\@x{\@s{27.51}}%
+\@y{\@s{0}%
+ then, there is no process at all, we just go nack to work:
+}%
+\@xx{}%
+\@x{\@s{27.51}}%
+\@y{\@s{0}%
+ Of course, up to now, nothing has been proved:
+}%
+\@xx{}%
+\@x{\@s{16.4} \,{\land} isPreferencesFileCompliant \,{=} {\TRUE}}%
+\@pvspace{8.0pt}%
+\@x{}%
+\@y{\@s{0}%
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ Next step
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}%
+\@xx{}%
+\@x{ NextCorrectness \,{\defeq}}%
+\@x{\@s{16.4} \,{\land} isPreferencesFollowingSpec}%
+ \@x{\@s{16.4} \,{\land} isPreferencesFileCompliant ^{\prime} \,{=}
+ isPreferencesFollowingSpec}%
+\@x{\@s{16.4} \,{\land} {\UNCHANGED} preferences}%
+\@pvspace{8.0pt}%
+\@x{}%
+\@y{\@s{0}%
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ Invariants
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}%
+\@xx{}%
+\@pvspace{8.0pt}%
+\@x{}%
+\@y{\@s{0}%
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ Properties
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ We can assume that our preferences comply with all policies:
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ Under the specs:
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ \ensuremath{{\Box}[isPreferencesFileCompliant]\_{\langle}
+}}%
+\@xx{}%
+\@x{}%
+\@y{\@s{7.5}%
+ \ensuremath{isPreferencesFileCompliant
+}}%
+\@xx{}%
+\@x{}%
+\@y{%
+ \ensuremath{{\rangle}
+}}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ Check with \ensuremath{TLC} must be \ensuremath{OK}.
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ I consider it as an invariant, even if it\mbox{'}s not syntactically true,
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ since \ensuremath{isPreferencesFileCompliantNAME} variables are primed.
+}%
+\@xx{}%
+\@pvspace{16.0pt}%
+\@x{}\bottombar\@xx{}%
+%.  Md2LaTexCorrectness.tex: END
+
+
+\newpage
+%.  Md2LaTexSystemDesign.tex: BEGINNING
+\tlatex
+\setboolean{shading}{true}
+ \@x{}\moduleLeftDash\@xx{ {\MODULE}
+ Md2LaTeXSystemDesign}\moduleRightDash\@xx{}%
+\@x{ {\EXTENDS} Md2LaTeXCorrectness}%
+\@x{}%
+\@y{\@s{0}%
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ These specifications only deals with the preferences thenmselves
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ Hence, the way the system interacts with the input files should be
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ independently specified
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ It\mbox{'}s a \ensuremath{TODO{\bang}
+}}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}%
+\@xx{}%
+\@x{ InitSystemDesign\@s{4.12} \,{\defeq} InitCorrectness}%
+\@pvspace{8.0pt}%
+\@x{ NextSystemDesign \,{\defeq} NextCorrectness}%
+\@pvspace{16.0pt}%
+\@x{}\bottombar\@xx{}%
+%.  Md2LaTexSystemDesign.tex: END
+
+
+\newpage
+%.  Md2LaTexAlgorithms.tex: BEGINNING
+\tlatex
+\setboolean{shading}{true}
+\@x{}\moduleLeftDash\@xx{ {\MODULE} Md2LaTeXAlgorithms}\moduleRightDash\@xx{}%
+\@x{ {\EXTENDS} Md2LaTeXSystemDesign ,\, Functions}%
+\@pvspace{8.0pt}%
+\@x{}%
+\@y{\@s{0}%
+ At run time / compile time, the preferences file is parsed,
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ which yields a dictionary (in Python) / \ensuremath{HashMap} (in
+ \ensuremath{Java}) object,
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ namely \mbox{'}preferences\_as\_dict\mbox{'}.
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ We specify the parsing process.
+}%
+\@xx{}%
+\@x{ {\VARIABLE} preferences\_as\_dict}%
+\@pvspace{8.0pt}%
+\@x{}%
+\@y{\@s{0}%
+ So that \ensuremath{preference\_[key]} is the actual setting
+ \mbox{'}key\mbox{'}:
+}%
+\@xx{}%
+ \@x{ preference\_ \,{\defeq} [ key \,{\in} {\DOMAIN} preferences \,{\mapsto}
+ preferences [ key ] ]}%
+\@pvspace{8.0pt}%
+\@x{}%
+\@y{}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ If it is No, then no setting.
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ So, current key is off \ensuremath{preferences\_as\_dict}.
+}%
+\@xx{}%
+\@x{}%
+\@y{}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ First, filter:
+}%
+\@xx{}%
+\@x{ relevantKeys \,{\defeq} \{}%
+\@x{\@s{16.4} key \,{\in} {\DOMAIN} preferences \,{:}}%
+\@x{\@s{31.34} \,{\lor}\@s{2.22} key \,{=}\@w{documentclass}}%
+ \@x{\@s{31.34} \,{\lor}\@s{2.22} \,{\land} isFollowingYesOrNoPolicy (
+ preferences [ key ] )}%
+\@x{\@s{44.67} \,{\land} preferences [ key ] [ Y\_N ] \,{\notin} JSON\_NO}%
+\@x{ \}}%
+\@pvspace{8.0pt}%
+\@x{}%
+\@y{\@s{0}%
+ Next, stir up:
+}%
+\@xx{}%
+ \@x{ parsing \,{\defeq} [ key \,{\in} relevantKeys \,{\mapsto} preferences [
+ key ] ]}%
+\@pvspace{8.0pt}%
+\@x{}%
+\@y{\@s{0}%
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ Initial state
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}%
+\@xx{}%
+\@x{ InitAlgorithms \,{\defeq}}%
+\@x{\@s{16.4} \,{\land} InitSystemDesign}%
+\@x{\@s{16.4} \,{\land} preferences\_as\_dict \,{=} preferences}%
+\@pvspace{8.0pt}%
+\@x{}%
+\@y{\@s{0}%
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ Next state
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}%
+\@xx{}%
+\@x{ NextAlgorithms \,{\defeq}}%
+\@x{\@s{16.4} \,{\land} NextSystemDesign}%
+\@x{\@s{16.4} \,{\land} preferences\_as\_dict ^{\prime} \,{=} parsing}%
+\@pvspace{8.0pt}%
+\@x{}%
+\@y{\@s{0}%
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ Invariant
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ \ensuremath{IsParsingOK \,{=} {\TRUE}} \ensuremath{if.f} the parsing outputs
+ a dictionary that:
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ \ensuremath{i}. is compatible with the \ensuremath{YesOrNo} policy,
+ \ensuremath{i.e} every subrecord is so;
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ \ensuremath{ii.is} \mbox{'}lean\mbox{'}, in the sense that no ``turned off''
+ option
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ - see \ensuremath{Md2LaTeXSystemDesign} - keeps existing in the dictionary
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}%
+\@xx{}%
+\@pvspace{8.0pt}%
+\@x{}%
+\@y{\@s{0}%
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ This is actually repeating what is done with
+ \ensuremath{Md2LaTeXSystemDesign},
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ but this time, it is an invariant!
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}%
+\@xx{}%
+\@x{ IsParsingOK \,{\defeq}}%
+\@x{\@s{16.4} \,{\lor} InitAlgorithms}%
+ \@x{\@s{16.4} \,{\lor}\@s{4.1} \A\, key \,{\in} {\DOMAIN}
+ preferences\_as\_dict \,{:}}%
+ \@x{\@s{42.93} \,{\land} isCompatibleWithYesOrNoPolicy ( preference\_ [ key ]
+ )}%
+\@x{\@s{42.93} \,{\land}\@s{4.1} XOR (}%
+\@y{\@s{0}%
+ either:
+}%
+\@xx{}%
+ \@x{\@s{84.76} \,{\land} {\lnot} isFollowingYesOrNoPolicy ( preference\_ [
+ key ] ) ,\,}%
+\@x{\@s{84.76}}%
+\@y{\@s{0}%
+ either:
+}%
+\@xx{}%
+\@x{\@s{84.76} \,{\land} isFollowingYesOrNoPolicy ( preference\_ [ key ] )}%
+ \@x{\@s{84.76} \,{\land} preferences\_as\_dict [ key ] [ Y\_N ] \,{\in}
+ JSON\_YES )}%
+\@pvspace{8.0pt}%
+\@x{}\bottombar\@xx{}%
+\@pvspace{8.0pt}%
+%.  Md2LaTexAlgorithms.tex: END
+
+
+\newpage
+%.  Md2LaTexSpecifications.tex: BEGINNING
+\tlatex
+\setboolean{shading}{true}
+ \@x{}\moduleLeftDash\@xx{ {\MODULE}
+ Md2LaTeXSpecifications}\moduleRightDash\@xx{}%
+\@x{ {\EXTENDS} Md2LaTeXAlgorithms}%
+\@pvspace{8.0pt}%
+\@x{ Init\@s{4.12} \,{\defeq} InitAlgorithms}%
+\@pvspace{8.0pt}%
+\@x{ Next \,{\defeq} NextAlgorithms}%
+\@pvspace{16.0pt}%
+ \@x{ Spec\@s{1.46} \,{\defeq} Init \,{\land} {\Box} [ NextAlgorithms ]
+ {\langle}}%
+\@x{\@s{16.4} preferences ,\,}%
+\@x{\@s{16.4} isPreferencesFileCompliant ,\,}%
+\@x{\@s{16.4} preferences\_as\_dict {\rangle}}%
+\@pvspace{8.0pt}%
+\@x{}\bottombar\@xx{}%
+%.  Md2LaTexSpecifications.tex: END
+
+
+\newpage
+%.  Md2LaTexSystemDesignPreferencesFile.tex: BEGINNING
+\tlatex
+\setboolean{shading}{true}
+ \@x{}\moduleLeftDash\@xx{ {\MODULE}
+ Md2LaTeXSystemDesignPreferencesFile}\moduleRightDash\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ So, here is the specification of a file \ensuremath{NAME.preferences.json} .
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ Such a file must implement, or at least ``follow'', a specific policy,
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ that I named ``\ensuremath{YesOrNo}''.
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ Further explanations in \ensuremath{Md2LaTeXSystemDesignPreferences}.
+}%
+\@xx{}%
+\@x{}%
+\@y{}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ This file is only here for the sake of completeness;
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ \ensuremath{DOMAIN\_OF\_PREFERENCES} and \ensuremath{SET\_OF\_PREFERENCES}
+ are currently set as
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ \ensuremath{{\CONSTANTS}}.
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}%
+\@xx{}%
+\@pvspace{8.0pt}%
+\@x{}%
+\@y{\@s{0}%
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ NAME stands for the project\mbox{'}s name.
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ The naming convention (but it is off specs) is
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ \ensuremath{NAME.md.pdf}: The \ensuremath{pdf} output, \ensuremath{md}
+ stands for \mbox{'}main document\mbox{'} -
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ think of it as a main function in a \ensuremath{C} programm.
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ \ensuremath{NAME.md.md}:The markdown main document (recursive imports are
+ allowed
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ NAME. \ensuremath{preferences.json}: the preferences file
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ and so on.
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+}%
+\@xx{}%
+\@pvspace{8.0pt}%
+\@x{}%
+\@y{\@s{0}%
+ The preferences as a mapping:
+}%
+\@xx{}%
+\@x{}%
+\@y{\@s{0}%
+ First, Domain:
+}%
+\@xx{}%
+\@x{\@s{4.1} DOMAIN\_OF\_PREFERENCES \,{\defeq} \{}%
+\@x{\@s{16.4}\@w{documentclass} ,\,}%
+\@x{\@s{16.4}\@w{import\_packages} ,\,}%
+\@x{\@s{16.4}\@w{fancy} ,\,\@s{45.80}}%
+\@y{\@s{0}%
+ To overwrite default settings
+}%
+\@xx{}%
+\@x{\@s{16.4}\@w{import\_titlepage} ,\,}%
+\@y{\@s{0}%
+ make your own page
+}%
+\@xx{}%
+\@x{\@s{16.4}\@w{table\_of\_contents} ,\,}%
+\@x{\@s{16.4}\@w{fonts} ,\,\@s{48.91}}%
+\@y{\@s{0}%
+ \ensuremath{XeLaTeX}: Any font managed by the \ensuremath{OS} is
+ \ensuremath{OK}.
+}%
+\@xx{}%
+\@x{\@s{16.4}\@w{colors} ,\,}%
+\@x{\@s{16.4}\@w{language} ,\,\@s{32.8}}%
+\@y{\@s{0}%
+ Encompasses all language-dependent settings.
+}%
+\@xx{}%
+\@x{\@s{16.4}\@w{custom} ,\,\@s{37.88}}%
+\@y{\@s{0}%
+ Misc. settings, \ensuremath{e.g}. section color
+}%
+\@xx{}%
+\@x{\@s{16.4}\@w{foreword} ,\,}%
+\@x{\@s{16.4}\@w{annex} ,\,}%
+\@x{\@s{16.4}\@w{sources} ,\,\@s{37.75}}%
+\@y{\@s{0}%
+ Additional path, \ensuremath{e.g}. /src/\ensuremath{img
+}}%
+\@xx{}%
+\@x{ \}}%
+\@pvspace{8.0pt}%
+\@x{}%
+\@y{\@s{0}%
+ Next, the function space:
+}%
+\@xx{}%
+\@x{ SET\_OF\_PREFRENCES \,{\defeq} [}%
+\@x{\@s{16.4} documentclass \,{:} [}%
+\@x{\@s{32.8} class \,{:} STRING\_ALPH\_NONEMPTY ,\,}%
+\@x{\@s{32.8} options \,{:} [}%
+\@x{\@s{49.19} paper\_size\@s{3.70} \,{:} STRING\_ALPH ,\,}%
+\@x{\@s{49.19} draft\_mode \,{:} \{\@w{draft} ,\,\@w{} \} ,\,}%
+ \@x{\@s{49.19} titlepage \,{:} \{\@w{titlepage} ,\,\@w{notitlepage} ,\,\@w{}
+ \} ] ] ,\,}%
+\@x{\@s{16.4} import\_packages \,{:} [}%
+\@x{\@s{32.8} Y\_N \,{:} JSON\_BOOL ,\,}%
+\@x{\@s{32.8} path \,{:} ANY ] ,\,}%
+\@x{\@s{16.4} fancy \,{:} [}%
+\@x{\@s{32.8} Y\_N \,{:} JSON\_BOOL ,\,}%
+\@x{\@s{32.8} path \,{:} \{\@w{NAME.fancy.tex} ,\,\@w{} \} ] ,\,}%
+\@x{\@s{16.4} import\_titlepage \,{:} [}%
+\@x{\@s{32.8} Y\_N \,{:} JSON\_BOOL ,\,}%
+\@x{\@s{32.8} path \,{:} PATH ] ,\,}%
+\@x{\@s{16.4} table\_of\_contents \,{:} [}%
+\@x{\@s{32.8} Y\_N \,{:} JSON\_NO \,{\cup} JSON\_YES ,\,}%
+\@x{\@s{32.8} renewcommand \,{:} STRING\_LATEX ] ,\,}%
+\@x{\@s{16.4} fonts \,{:} [}%
+\@x{\@s{24.59} main \,{:} STRING\_ALPH\_NONEMPTY ,\,}%
+\@x{\@s{24.59} fixed\_width \,{:} STRING\_ALPH\_NONEMPTY ,\,}%
+\@x{\@s{24.59} LARGE \,{:} NAT ,\,}%
+\@x{\@s{24.59} Large\@s{11.93} \,{:} NAT ] ,\,}%
+\@x{\@s{16.4}}%
+\@y{\@s{0}%
+ \mbox{'}colors\mbox{'} is a record of
+ \ensuremath{\backslash}definecolor\ensuremath{\{\}\{HTML\}\{\}
+}}%
+\@xx{}%
+\@x{\@s{16.4} colors \,{:} [}%
+\@x{\@s{32.8} Y\_N \,{:} JSON\_BOOL ,\,}%
+\@x{\@s{32.8} definition \,{:} RECORD ] ,\,}%
+\@x{\@s{16.4} language \,{:} [}%
+\@x{\@s{24.59} main \,{:} STRING\_ALPH\_NONEMPTY ,\,}%
+\@x{\@s{24.59} date\@s{3.84} \,{:} STRING\_LATEX ,\,}%
+\@x{\@s{24.59} page\_numbering \,{:} STRING\_ALPH ,\,}%
+\@x{\@s{24.59} nameForTableOfContents \,{:} STRING\_ALPH ] ,\,}%
+\@x{\@s{16.4} custom \,{:}\@s{4.1} [}%
+\@x{\@s{24.59} section \,{:}\@s{4.1} [}%
+\@x{\@s{32.8} color\@s{0.30} \,{:} STRING\_ALPH ,\,}%
+\@x{\@s{32.8} renewcommand \,{:} STRING\_LATEX ] ,\,}%
+\@x{\@s{24.59} subsection \,{:}\@s{4.1} [}%
+\@x{\@s{32.8} renewcommand \,{:} STRING\_LATEX ] ] ,\,}%
+\@x{\@s{16.4} foreword \,{:} [}%
+\@x{\@s{24.59} Y\_N \,{:} JSON\_BOOL ,\,}%
+\@x{\@s{24.59} path \,{:} \{\@w{\$AME.foreword.tex} ,\,\@w{} \} ] ,\,}%
+\@x{\@s{16.4} annex\@s{4.34} \,{:} [}%
+\@x{\@s{24.59} Y\_N \,{:} JSON\_BOOL ,\,}%
+\@x{\@s{24.59} section \,{:}\@s{4.1} [}%
+\@x{\@s{32.8} renewcommand \,{:} STRING\_ALPH ] ,\,}%
+\@x{\@s{24.59} path \,{:} \{\@w{NAME.annex.tex} ,\,\@w{} \} ] ,\,}%
+\@x{\@s{16.4} sources \,{:} [}%
+\@x{\@s{24.59} root \,{:} \{\@w{./} \} ,\,}%
+\@x{\@s{24.59} images \,{:} \{\@w{img} \} ]}%
+\@x{ ]}%
+\@pvspace{16.0pt}%
+\@x{}\bottombar\@xx{}%
+%.  Md2LaTexSystemDesignPreferencesFile.tex: END
+
+
