@@ -22,8 +22,5 @@ doc/src0
 *toc
 
 doc/dst/
-doc/TLA/md
-doc/TLA/tex
-doc/TLA/tex/*
-doc/TLA/tex/*py
-doc/TLA/tex/*sh
+doc/TLA/md/
+doc/TLA/tex/
