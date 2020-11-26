@@ -7,19 +7,23 @@ EXTENDS Md2LaTeXSystemDesign, Functions
 (* We specify the parsing process.                                     *)
 VARIABLE preferences_as_dict
 
+\* So that preference_[key] is the actual setting 'key': 
+preference_ == [ key \in DOMAIN preferences |-> preferences[key]]
+
 (*                                                                     *)
 (* If it is No, then no setting.                                       *)
 (* So, current key is off preferences_as_dict.                         *)
 (*                                                                     *)
 \* First, filter:
-filteredKeys == {
-    key \in DOMAIN preferences: 
-        /\ isFollowingYesOrNoPolicy(preferences[key])  
-        /\ preferences[key][Y_N] \notin JSON_NO
+relevantKeys == {
+    key \in DOMAIN preferences:
+        \/  key = "documentclass" 
+        \/  /\ isFollowingYesOrNoPolicy(preferences[key])  
+            /\ preferences[key][Y_N] \notin JSON_NO
 }
 
 \* Next, stir up:
-parsing == [key \in filteredKeys |-> preferences[key]]
+parsing == [key \in relevantKeys |-> preferences[key]]
 
 (* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *)
 (* Initial state                                                       *)
@@ -49,13 +53,12 @@ NextAlgorithms ==
 (* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *)
 IsParsingOK == 
     \/ InitAlgorithms
-    \/  \A key \in DOMAIN preferences_as_dict: 
-            /\ isFollowingYesOrNoPolicy(preferences_as_dict[key])
+    \/  \A key \in DOMAIN preferences_as_dict:
+            /\ isCompatibleWithYesOrNoPolicy(preference_[key])
             /\  XOR(\* either:
-                    /\ ~isFollowingYesOrNoPolicy(preferences_as_dict[key])
-                    /\ isCompatibleWithYesOrNoPolicy(preferences_as_dict[key]),
+                    /\ ~isFollowingYesOrNoPolicy(preference_[key]),
                     \* either:
-                    /\ isFollowingYesOrNoPolicy(preferences_as_dict[key])
+                    /\ isFollowingYesOrNoPolicy(preference_[key])
                     /\ preferences_as_dict[key][Y_N] \in JSON_YES)
  
 ===============================================================================

@@ -1,6 +1,6 @@
 ----------------------- MODULE Md2LaTeXSystemDesignPreferencesFile ------------
 (* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *)
-(* So, here is the specification of a file ${}.preferences.json .      *)
+(* So, here is the specification of a file NAME.preferences.json .     *)
 (* Such a file must implement, or at least "follow", a specific policy,*)
 (* that I named "YesOrNo".                                             *)
 (* Further explanations in Md2LaTeXSystemDesignPreferences.            *)
@@ -9,21 +9,32 @@
 (* DOMAIN_OF_PREFERENCES and SET_OF_PREFERENCES are currently set as   *)
 (* CONSTANTS.                                                          *)
 (* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *)
+
+(* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *)
+(* NAME stands for the project's name.                                 *)
+(* The naming convention (but it is off specs) is                      *)
+(* NAME.md.pdf: The pdf output, md stands for 'main document' -        *)
+(* think of it as a main function in a C programm.                     *)
+(* NAME.md.md:The markdown main document (recursive imports are allowed*)
+(* NAME. preferences.json: the preferences file                        *)     
+(* and so on.                                                          *)
+(* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *)
+
 \* The preferences as a mapping:
 \* First, Domain:
  DOMAIN_OF_PREFERENCES == {
     "documentclass",
     "import_packages", 
-    "fancy",
-    "import_titlepage",
+    "fancy",            \* To overwrite default settings
+    "import_titlepage", \* make your own page
     "table_of_contents",
-    "fonts",
+    "fonts",            \* XeLaTeX: Any font managed by the OS is OK.
     "colors",
-    "language",
-    "custom",
+    "language",         \* Encompasses all language-dependent settings.
+    "custom",           \* Misc. settings, e.g. section color
     "foreword",
     "annex",
-    "sources",
+    "sources",          \* Additional path, e.g. /src/img
 }
 
 \* Next, the function space:
@@ -39,11 +50,10 @@ SET_OF_PREFRENCES == [
         path: ANY],
     fancy: [
         Y_N: JSON_BOOL, 
-        path:{"${}.fancy.tex", ""}],
+        path:{"NAME.fancy.tex", ""}],
     import_titlepage: [
         Y_N: JSON_BOOL, 
-        path: PATH
-    ],
+        path: PATH],
     table_of_contents: [
         Y_N: JSON_NO \cup JSON_YES, 
         renewcommand: STRING_LATEX],
@@ -52,7 +62,7 @@ SET_OF_PREFRENCES == [
       fixed_width: STRING_ALPH_NONEMPTY,
       LARGE: NAT,
       Large: NAT],
-    (* 'colors' is a record of (key, value) pa\definecolor{'s}{HTML}{'s}*)
+    (* 'colors' is a record of \definecolor{}{HTML}{}*)
     colors: [
         Y_N: JSON_BOOL, 
         definition: RECORD],
@@ -69,12 +79,12 @@ SET_OF_PREFRENCES == [
         renewcommand: STRING_LATEX]],
     foreword: [
       Y_N: JSON_BOOL,
-      path: {"${}.foreword.tex", ""}],
+      path: {"$AME.foreword.tex", ""}],
     annex: [
       Y_N: JSON_BOOL, 
       section:  [
         renewcommand: STRING_ALPH],
-      path: {"${}.annex.tex", ""}], 
+      path: {"NAME.annex.tex", ""}], 
     sources: [
       root: {"./"},
       images: {"img"}]

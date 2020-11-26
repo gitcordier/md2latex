@@ -7,7 +7,6 @@ Next == NextAlgorithms
 
 
 Spec == Init /\ [][NextAlgorithms]_<<
-    entityState, 
     preferences, 
     isPreferencesFileCompliant,
     preferences_as_dict>>
