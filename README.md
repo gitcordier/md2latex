@@ -37,15 +37,15 @@ Features
 
 Caveats
 -------
-You can inline LaTeX commands because that are not markdown-parsable. However, md2latex does not do auto-escaping for you so if you have underscore LaTeX meta chracters such as _ or % in your document, be cautious!
-If your mathematical command are a sophisticated, e.g. \begin{align} …, then the latex compilation should break, for empty-line-inserted reason. 
+You can inline LaTeX commands because they are not markdown-parsable. However, md2latex does not do auto-escaping for you so if you have underscore LaTeX meta chracters such as _ or % in your document, be cautious!
+If a mathematical command is sophisticated, e.g. \begin{align} …, then the latex compilation could break, for empty-line-inserted reason. 
 For now, workarounds are:
 
 - Clean up the LateX output;
 - Go back to LaTeX  source codes…  
-  It's all about trade offs… If you want to type pure AMSTeX, then a *TeX could be the best option.
+  It's all about trade-offs… If you want to type pure AMSTeX, then a *TeX could be the best option.
 - Import content from a .tex file, with the inputmd command.  
-  I used this a lot (inserting complex tables). It works very well.
+  **I used this a lot (inserting complex tables). It works very well.**
 
 
 Documentation
@@ -59,6 +59,6 @@ Acknowledgement
 
 Thanks to @kavinyao for the great job.
 
-Thanks @lepture for the super awersome mistune_ markdown parser.
+Thanks @lepture for the super awersome mistune markdown parser.
 
-.. _mistune: [https://github.com/lepture/mistune](https://github.com/lepture/mistune "Mistune")
+mistune: [https://github.com/lepture/mistune](https://github.com/lepture/mistune "Mistune")

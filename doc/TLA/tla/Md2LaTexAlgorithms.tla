@@ -2,17 +2,12 @@
 EXTENDS Md2LaTeXSystemDesign, Functions
 
 (* At run time / compile time, the preferences file is parsed,         *)
-(* which yields a dictionary (in Python) / HashMap (in Java) object,   *)
-(* namely 'preferences_as_dict'.                                       *)
-(* We specify the parsing process.                                     *)
-VARIABLE preferences_as_dict
-
-\* So that preference_[key] is the actual setting 'key': 
-preference_ == [ key \in DOMAIN preferences |-> preferences[key]]
-
+(* which yields a dictionary 'choice_'.                                *)
+(* We below specify the parsing process.                               *)
+VARIABLE choice_
 (*                                                                     *)
 (* If it is No, then no setting.                                       *)
-(* So, current key is off preferences_as_dict.                         *)
+(* So, current key is not part of choice_.                             *)
 (*                                                                     *)
 \* First, filter:
 relevantKeys == {
@@ -30,36 +25,36 @@ parsing == [key \in relevantKeys |-> preferences[key]]
 (* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *)
 InitAlgorithms == 
     /\ InitSystemDesign
-    /\ preferences_as_dict = preferences
+    /\ choice_ = preferences
 
 (* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *)
 (* Next state                                                          *)
 (* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *)
 NextAlgorithms == 
     /\ NextSystemDesign
-    /\ preferences_as_dict' = parsing
+    /\ choice_' = parsing
 
 (* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *)
 (* Invariant                                                           *)
 (* IsParsingOK = TRUE if.f the parsing outputs a dictionary that:      *)
 (* i. is compatible with the YesOrNo policy, i.e every subrecord is so;*)
 (* ii.is 'lean', in the sense that no "turned off" option              *)
-(* - see Md2LaTeXSystemDesign - keeps existing in the dictionary       *) 
+(*      - see Md2LaTeXSystemDesign - keeps existing in the dictionary; *) 
+(* iii. has no extra key, i.e. all key come from DOMAIN_OF_PREFERENCES *)
 (* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *)
 
-(* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *)
-(* This is actually repeating what is done with Md2LaTeXSystemDesign,  *)
-(* but this time, it is an invariant!                                  *)
-(* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *)
 IsParsingOK == 
     \/ InitAlgorithms
-    \/  \A key \in DOMAIN preferences_as_dict:
-            /\ isCompatibleWithYesOrNoPolicy(preference_[key])
+    \/  \A key \in DOMAIN choice_:
+            /\ isCompatibleWithYesOrNoPolicy(preferences[key])
             /\  XOR(\* either:
-                    /\ ~isFollowingYesOrNoPolicy(preference_[key]),
+                    /\ ~isFollowingYesOrNoPolicy(preferences[key]),
                     \* either:
-                    /\ isFollowingYesOrNoPolicy(preference_[key])
-                    /\ preferences_as_dict[key][Y_N] \in JSON_YES)
+                    /\ isFollowingYesOrNoPolicy(preferences[key])
+                    /\ choice_[key][Y_N] \in JSON_YES)
  
+\* It means some redundant boolean tests, but we do not care about, since
+\* we are are not aiming at optimal predicate computation, only specifications!
+
 ===============================================================================
 

@@ -9,6 +9,6 @@ Next == NextAlgorithms
 Spec == Init /\ [][NextAlgorithms]_<<
     preferences, 
     isPreferencesFileCompliant,
-    preferences_as_dict>>
+    choice_>>
 
 =============================================================================
