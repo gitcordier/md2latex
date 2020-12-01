@@ -7,6 +7,7 @@ This is a fork of the Kavin Yao's md2latex, available at
 
 You can also get this original parser with a ``pip install md2latex`` (use ``sudo`` if necessary).
 
+**Bear in mind that both versions of md2LaTeX depend on an older (0.2) version of [mistune](https://github.com/lepture/mistune "Mistune").**
 
 Test
 -------
@@ -37,7 +38,7 @@ Features
 
 Caveats
 -------
-You can inline LaTeX commands because they are not markdown-parsable. However, md2latex does not do auto-escaping for you so if you have underscore LaTeX meta chracters such as _ or % in your document, be cautious!
+You can inline LaTeX commands because they are not markdown-parsable. However, md2latex does not do auto-escaping for you so if you have underscore LaTeX meta characters such as _ or % in your document, be cautious!
 If a mathematical command is sophisticated, e.g. \begin{align} …, then the latex compilation could break, for empty-line-inserted reason. 
 For now, workarounds are:
 
@@ -52,13 +53,17 @@ Documentation
 -------
 The full manual (see doc/src/md2latex_doc.md.md``) is … being written. A fancy term for: there is currently no full manual.
 
-doc/TLA encloses the (partial) specs of the parse.  Once again, it's ongoing…
+doc/TLA encloses the (partial) specs of the parse.  
+It is ongoing but you will nevertheless get the very format of the preferences file. 
+Hence, I think it may provide a great deal of help. 
+I have put everything together [here](https://github.com/gitcordier/md2latex/tree/master/doc/TLA/pdf).
+Enjoy!
+
 
 Acknowledgement
 ---------------
 
 Thanks to @kavinyao for the great job.
 
-Thanks @lepture for the super awersome mistune markdown parser.
+Thanks @lepture for the super awersome [mistune](https://github.com/lepture/mistune "Mistune") markdown parser.
 
-mistune: [https://github.com/lepture/mistune](https://github.com/lepture/mistune "Mistune")
