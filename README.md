@@ -53,7 +53,7 @@ Documentation
 -------
 The full manual (see doc/src/md2latex_doc.md.md``) is … being written. A fancy term for: there is currently no full manual.
 
-doc/TLA encloses the (partial) specs of the parse.  
+doc/TLA encloses the (partial) specs.  
 It is ongoing but you will nevertheless get the very format of the preferences file. 
 Hence, I think it may provide a great deal of help. 
 I have put everything together [here](https://github.com/gitcordier/md2latex/tree/master/doc/TLA/pdf).
