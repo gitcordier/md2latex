@@ -101,7 +101,7 @@ CONSTANT EXCLUDED_BY_YES_OR_NO_POLICY
 (* "yes", "on", and "true" are synonyms;                               *)
 (* "no", "off", and "false" are synomyms.                              *)
 (* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *)
-CONSTANT JSON_BOOL, JSON_NO, JSON_YES, Y_N
+CONSTANTS JSON_BOOL, JSON_NO, JSON_YES, Y_N
 
 
 \* The preferences as a mapping:

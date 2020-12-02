@@ -81,8 +81,8 @@ InitPreferences ==
 InitCorrectness == 
     /\ InitPreferences
        \*
-       \* IF we do not believe that our current preferences file is legal,
-       \* then, there is no process at all, we just go back to work:
+       \* If the user does not believe that the preferences file is OK,
+       \* then, there is no process at all, (s)he just goes back to work:
        \* Of course, up to now, nothing has been proved:
     /\ isPreferencesFileCompliant = TRUE \* Conjecture
 
